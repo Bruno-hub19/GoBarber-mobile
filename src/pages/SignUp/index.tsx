@@ -8,8 +8,8 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
-import Input from '../../Components/Input';
-import Button from '../../Components/Button';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
 import logoImg from '../../assets/logo.png';
 import {
   Container,
@@ -36,8 +36,21 @@ const SignUp: React.FC = () => {
 
             <Title>Faça seu cadastro</Title>
 
-            <Input name="name" icon="user" placeholder="Nome" />
-            <Input name="email" icon="mail" placeholder="E-mail" />
+            <Input
+              name="name"
+              icon="user"
+              placeholder="Nome"
+              autoCapitalize="words"
+              autoCorrect={false}
+            />
+            <Input
+              name="email"
+              icon="mail"
+              placeholder="E-mail"
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+            />
             <Input
               name="password"
               icon="lock"

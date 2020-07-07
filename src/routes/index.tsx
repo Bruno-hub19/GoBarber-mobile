@@ -17,7 +17,7 @@ const AuthRoutes: React.FC = () => {
         cardStyle: {
           backgroundColor: '#312e38',
         },
-        ...TransitionPresets.ScaleFromCenterAndroid,
+        ...TransitionPresets.SlideFromRightIOS,
       }}
       mode="modal"
     >
