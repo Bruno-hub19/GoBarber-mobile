@@ -12,6 +12,7 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import Icon from 'react-native-vector-icons/Feather';
 
+import api from '../../services/api';
 import getValidationErrors from '../../utils/getValidationErrors';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -49,8 +50,7 @@ const SignUp: React.FC = () => {
         abortEarly: false,
       });
 
-      console.log(data);
-      // all right => api.post()
+      await api.post('/user', data);
 
       reset();
     } catch (err) {
@@ -62,7 +62,7 @@ const SignUp: React.FC = () => {
         return;
       }
 
-      Alert.alert('Erro no cadastro', 'Verifique os dados informados');
+      Alert.alert('Erro durante o cadastro', 'Verifique os dados informados');
     }
   }, []);
 
@@ -108,7 +108,7 @@ const SignUp: React.FC = () => {
             </Form>
 
             <Button onPress={() => formRef.current?.submitForm()}>
-              Entrar
+              Cadastrar
             </Button>
           </Container>
         </ScrollView>
