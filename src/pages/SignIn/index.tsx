@@ -54,13 +54,21 @@ const SignIn: React.FC = () => {
             <Title>Faça seu logon</Title>
 
             <Form ref={formRef} onSubmit={handleSubmit}>
-              <Input name="email" icon="mail" placeholder="E-mail" />
+              <Input
+                name="email"
+                icon="mail"
+                placeholder="E-mail"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
               <Input
                 name="password"
                 icon="lock"
                 placeholder="Senha"
                 keyboardType="web-search"
                 onSubmitEditing={() => formRef.current?.submitForm()}
+                returnKeyType="next"
                 secureTextEntry
               />
             </Form>
