@@ -50,7 +50,8 @@
         "tsx": "never"
       }
     ],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-unused-expressions": "off"
   },
   "settings": {
     "import/resolver": {
