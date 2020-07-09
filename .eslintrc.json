@@ -51,7 +51,8 @@
       }
     ],
     "prettier/prettier": "error",
-    "no-unused-expressions": "off"
+    "no-unused-expressions": "off",
+    "@typescript-eslint/ban-types": "off"
   },
   "settings": {
     "import/resolver": {

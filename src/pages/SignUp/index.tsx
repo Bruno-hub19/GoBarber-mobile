@@ -34,37 +34,42 @@ const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
 
-  const handleSubmit = useCallback(async (data: SignUpFormData, { reset }) => {
-    try {
-      formRef.current?.setErrors({});
+  const handleSubmit = useCallback(
+    async (data: SignUpFormData, { reset }) => {
+      try {
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Campo obrigatório'),
-        email: Yup.string()
-          .required('Campo obrigatório')
-          .email('Digite um email válido'),
-        password: Yup.string().min(6, 'No mínimo 6 caracteres'),
-      });
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Campo obrigatório'),
+          email: Yup.string()
+            .required('Campo obrigatório')
+            .email('Digite um email válido'),
+          password: Yup.string().min(6, 'No mínimo 6 caracteres'),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      await api.post('/user', data);
+        await api.post('/user', data);
 
-      reset();
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
+        reset();
 
-        formRef.current?.setErrors(errors);
+        navigation.navigate('SignIn');
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
 
-        return;
+          formRef.current?.setErrors(errors);
+
+          return;
+        }
+
+        Alert.alert('Erro durante o cadastro', 'Verifique os dados informados');
       }
-
-      Alert.alert('Erro durante o cadastro', 'Verifique os dados informados');
-    }
-  }, []);
+    },
+    [navigation],
+  );
 
   return (
     <>

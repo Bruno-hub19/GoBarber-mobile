@@ -12,6 +12,7 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import Icon from 'react-native-vector-icons/Feather';
 
+import { useAuth } from '../../hooks/auth';
 import getValidationErrors from '../../utils/getValidationErrors';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -35,34 +36,42 @@ const SignIn: React.FC = () => {
 
   const navigation = useNavigation();
 
-  const handleSubmit = useCallback(async (data: SignInFormData, { reset }) => {
-    try {
-      formRef.current?.setErrors({});
+  const { signIn } = useAuth();
 
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('Campo é obrigatório')
-          .email('Digite um email válido'),
-        password: Yup.string().required('Campo é obrigatório'),
-      });
+  const handleSubmit = useCallback(
+    async (data: SignInFormData, { reset }) => {
+      try {
+        formRef.current?.setErrors({});
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('Campo é obrigatório')
+            .email('Digite um email válido'),
+          password: Yup.string().required('Campo é obrigatório'),
+        });
 
-      console.log(data);
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      reset();
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
 
-        formRef.current?.setErrors(errors);
+        reset();
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+        }
+
+        Alert.alert('Erro ao efetuar logon', 'Verifique suas credenciais');
       }
-
-      Alert.alert('Erro ao logar', 'Verifique suas credenciais');
-    }
-  }, []);
+    },
+    [signIn],
+  );
 
   return (
     <>
